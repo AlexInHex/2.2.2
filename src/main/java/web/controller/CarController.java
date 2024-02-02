@@ -19,16 +19,8 @@ public class CarController {
     }
 
     @GetMapping("/cars")
-    public String getCars(Model model, @RequestParam(name = "count", required = false, defaultValue = "-1") int count) {
-        List<Car> allCars = carService.initializeCarList();
-        List<Car> cars;
-
-        if (count < 1 || count >= allCars.size()) {
-            cars = allCars;
-        } else {
-            cars = carService.getCars(allCars, count);
-        }
-
+    public String getCars(Model model, @RequestParam(name = "count", required = false, defaultValue = "0") int count) {
+        List<Car> cars = carService.getCars(count);
         model.addAttribute("cars", cars);
         return "cars";
     }

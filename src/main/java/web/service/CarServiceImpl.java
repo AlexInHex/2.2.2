@@ -6,10 +6,10 @@ import web.model.Car;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 @Service
 public class CarServiceImpl implements CarService {
+
+    private final List<Car> carList = initializeCarList();
 
     public List<Car> initializeCarList() {
         List<Car> cars = new ArrayList<>();
@@ -21,13 +21,9 @@ public class CarServiceImpl implements CarService {
         return cars;
     }
     @Override
-    public List<Car> getCars(List<Car> carList, int count) {
-        if (count <= 0) {
-            return new ArrayList<>();
-        } else if (count >= carList.size()) {
-            return carList;
-        } else {
-            return carList.subList(0, count);
-        }
+    public List<Car> getCars(int count) {
+        return carList.stream()
+                .limit(count > 0 ? Math.min(count, carList.size()) : 0)
+                .toList();
     }
 }
